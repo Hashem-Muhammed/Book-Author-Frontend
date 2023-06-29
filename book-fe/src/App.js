@@ -13,6 +13,7 @@ import { BookDetails } from './components/BookDetails';
 import { NotFound } from './components/NotFound';
 import Navigation from './components/Navigator';
 import MyBooks from './components/MyBooks';
+import UnauthorizedPage from './components/Unaothrized';
 function App() {
   return (
     <div>
@@ -31,6 +32,8 @@ function App() {
           
           <Route path="/notfound" element = {<NotFound />} />
           <Route path="*" element = {<NotFound />} />
+          <Route path="/unautohrized" element = {<UnauthorizedPage />} />
+
 
 
         </Routes>

@@ -2,7 +2,7 @@ import { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
 import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
-
+import '../css/Nav.css'
 export default function Navigation() {
   const navigator = useNavigate();
   const { contextData } = useContext(AuthContext);
@@ -14,9 +14,9 @@ export default function Navigation() {
   };
 
   return (
-    <Navbar bg="light" expand="lg">
+    <Navbar className='nv-bt px-5'  expand="lg">
       <Navbar.Brand as={Link} to="/">
-        My Books
+        E-BOOK
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">

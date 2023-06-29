@@ -33,9 +33,10 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem('authTokens', JSON.stringify(data));
       setUser(jwt_decode(data.access));
       navigate('/');
-    } else {
-      alert('Wrong username or password!');
-    }
+
+    } 
+    
+    return response;
   };
 
   let getUser = async () => {

@@ -1,6 +1,6 @@
 import axios from "axios";
-import { useContext } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+
+
 let base = 'http://localhost:8000/';
 
 export let  getBooks = async ()=> {
@@ -120,9 +120,3 @@ export let getUser = async () => {
              }
        });
    };
-// export let editProduct= async (product) => {
-//      await axios.put(`${base}/${product.id}` , product);
-// }
-// export let deleteProduct = async(id) => {
-//      await axios.delete(`${base}/${id}`)
-// }
