@@ -6,6 +6,8 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import '../css/BookDetails.css';
 import { NotFound } from './NotFound';
+import '../css/PageForms.css'
+import { Card, Button, Form } from 'react-bootstrap';
 
 export function BookDetails() {
   const { id } = useParams();
@@ -19,11 +21,14 @@ export function BookDetails() {
   const [newPageContent, setNewPageContent] = useState('');
   const [selectedPage, setSelectedPage] = useState(null);
 
-  const getAllBooks = async () => {
+  const getAllBooks = async () => { 
+    try{
     const response = await getAuthorBooks();
     setMyBooks(response.data);
-    console.log(response.data);
-  };
+    }
+    catch(error)
+    {
+}  };
   let fetchBook = async() =>  {
     try {
       const response = await getBook(id);
@@ -107,7 +112,7 @@ export function BookDetails() {
       <h2>Title: {book.title}</h2>
       <h4>Author: {book.author?.user?.first_name}</h4>
       <div className="slider-container">
-        <Slider
+        <Slider className='slider'
           dots={true}
           infinite={true}
           speed={500}
@@ -120,7 +125,7 @@ export function BookDetails() {
                 <h3>{page.title}</h3>
                 <p>{page.content}</p>
                 {isMine && (
-                  <button onClick={() => handleEditPage(page)}>Edit Page</button>
+                  <button class='btn btn-secondary' onClick={() => handleEditPage(page)}>Edit Page</button>
                 )}
               </div>
             );
@@ -129,67 +134,71 @@ export function BookDetails() {
         {isMine && (
           <>
             {!showForm ? (
-              <button class="m-5" onClick={handleAddPage}>
-                Add Page
-              </button>
-            ) : (
-              <form class="m-5" onSubmit={handleSubmit}>
-                <div>
-                  <label htmlFor="title">Title:</label>
-                  <input
-                    type="text"
-                    id="title"
-                    value={newPageTitle}
-                    onChange={handleTitleChange}
-                  />
-                </div>
-                <div>
-                  <label htmlFor="content">Content:</label>
-                  <textarea
-                    id="content"
-                    value={newPageContent}
-                    onChange={handleContentChange}
-                  />
-                </div>
-                <button type="submit">Add Page</button>
-              </form>
-            )}
-            {selectedPage&& (
-              <div className="page-details">
-                <h3>Edit Page</h3>
-                <form onSubmit={() => updatePageInBook(selectedPage.id, selectedPage.title, selectedPage.content)}>
-                  <div>
-                    <label htmlFor="title">Title:</label>
-                    <input
-                      type="text"
-                      id="title"
-                      value={selectedPage.title}
-                      onChange={(e) =>
-                        setSelectedPage({
-                          ...selectedPage,
-                          title: e.target.value
-                        })
-                      }
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="content">Content:</label>
-                    <textarea
-                      id="content"
-                      value={selectedPage.content}
-                      onChange={(e) =>
-                        setSelectedPage({
-                          ...selectedPage,
-                          content: e.target.value
-                        })
-                      }
-                    />
-                  </div>
-                  <button type="submit" >Save Changes</button>
-                  <button type="button" onClick={() => setSelectedPage(null)}>Cancel</button>
-                </form>
-              </div>
-            )}
+  <button className="m-5" onClick={handleAddPage}>
+    Add Page
+  </button>
+) : (
+  <form className="page-form" onSubmit={handleSubmit}>
+    <div>
+      <label htmlFor="title">Title</label>
+      <input required
+        type="text"
+        id="title"
+        value={newPageTitle}
+        onChange={handleTitleChange}
+      />
+    </div>
+    <div>
+      <textarea required
+        id="content"
+        value={newPageContent}
+        onChange={handleContentChange}
+        placeholder="Page content"
+      />
+    </div>
+    <button class='btn btn-success' type="submit">Add Page</button>
+  </form>
+)}
+
+{selectedPage && (
+  <div className="page-details">
+    <form className="page-form" onSubmit={() => updatePageInBook(selectedPage.id, selectedPage.title, selectedPage.content)}>
+      <div>
+        <label htmlFor="title">Title</label>
+        <input required
+          type="text"
+          id="title"
+          value={selectedPage.title}
+          onChange={(e) =>
+            setSelectedPage({
+              ...selectedPage,
+              title: e.target.value
+            })
+          }
+        />
+      </div>
+      <div>
+        <textarea required
+        placeholder="Page content"
+
+          id="content"
+          value={selectedPage.content}
+          onChange={(e) =>
+            setSelectedPage({
+              ...selectedPage,
+              content: e.target.value
+            })
+            
+          }
+        />
+      </div>
+      <div class ='buttons'>
+      <Button className='btn btn-success' type="submit">Save Changes</Button>
+      <Button className='btn btn-danger'  onClick={() => setSelectedPage(null)}>Cancel</Button>
+      </div>
+    </form>
+  </div>
+)}
           </>
         )}
       </div>

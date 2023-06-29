@@ -3,8 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { addBook, getAuthorBooks} from '../APIs utils/apis';
 import AuthContext from '../context/AuthContext';
 import { Card, Button, Form } from 'react-bootstrap';
-import { getUser } from '../utils/PrivateRoute';
-import jwt_decode from 'jwt-decode';
+
 
 export default function MyBooks() {
   const navigator = useNavigate();
@@ -15,8 +14,18 @@ export default function MyBooks() {
   const { userInfo } = contextData;
 
   const getAllBooks = async () => {
+    try{
     const response = await getAuthorBooks();
+    if (response.status == 200) {
     setBooks(response.data);
+    }
+    else if (response.status == 403){
+      navigator('/unautohrized/');
+    }
+  }
+  catch(err){
+    navigator('/unautohrized/');
+  }
   };
 
   const handleAddBookClick = () => {
@@ -74,7 +83,7 @@ export default function MyBooks() {
       </div>
 
       { userInfo.user_type === 'author' && (
-        <Button onClick={handleAddBookClick}>Add Book</Button>
+        <Button className='m-5' onClick={handleAddBookClick}>Add Book</Button>
       )}
       {showForm && (
         <Form onSubmit={handleSubmit}>

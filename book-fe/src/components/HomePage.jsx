@@ -3,9 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { addBook, getBooks} from '../APIs utils/apis';
 import AuthContext from '../context/AuthContext';
 import { Card, Button, Form } from 'react-bootstrap';
-import { getUser } from '../utils/PrivateRoute';
-import jwt_decode from 'jwt-decode';
-
+import '../css/Home.css';
 export default function HomePage() {
   const navigator = useNavigate();
   const [books, setBooks] = useState([]);
@@ -17,16 +15,7 @@ export default function HomePage() {
   const [userInfo, setUserInfo] = useState(
     {}
   );  
-  // alert(userInfo.user_type);
 
-  // const getUser = ()=>
-  // {   
-  //   let user = jwt_decode(authTokens.access)
-  //   console.log(user)
-  //   return user
-  // }
-
-  // let user = getUser();
 
   const getAllBooks = async () => {
     const data = await getBooks();
@@ -63,7 +52,7 @@ export default function HomePage() {
   };
 
   return (
-    <div className="container bg-dark text-center p-5">
+    <div className="container  text-center bg-dark  p-5">
 
       <div className="row row-cols-1 row-cols-md-3 g-4">
         {books.map((book) => (
@@ -90,7 +79,7 @@ export default function HomePage() {
       </div>
 
       { userInfo.user_type === 'author' && (
-        <Button onClick={handleAddBookClick}>Add Book</Button>
+        <Button className='m-5' onClick={handleAddBookClick}>Add Book</Button>
       )}
       {showForm && (
         <Form onSubmit={handleSubmit}>
